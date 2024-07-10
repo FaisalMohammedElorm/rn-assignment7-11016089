@@ -3,13 +3,11 @@ import React from "react";
 
 const Home = ({ image, title, description, price, icon, onPressAdd }) => {
   return (
-    <View>
-      <View style={styles.image}>
-        <Image source={image} />
-        <TouchableOpacity onPress={onPressAdd}>
-          <View style={styles.icons}>
-            <Image source={icon} />
-          </View>
+    <View style={styles.container}>
+      <View style={styles.imageContainer}>
+        {image && <Image source={image} style={styles.image} />}
+        <TouchableOpacity onPress={onPressAdd} style={styles.iconContainer}>
+          <Image source={icon} style={styles.icon} />
         </TouchableOpacity>
       </View>
       <Text style={styles.title}>{title}</Text>
@@ -20,27 +18,51 @@ const Home = ({ image, title, description, price, icon, onPressAdd }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
-  image: {
+  container: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 10,
+    marginVertical: 10,
+    width: "48%",
+  },
+  imageContainer: {
     position: "relative",
-    marginBottom: 15,
-    marginTop: 30,
+    marginBottom: 10,
+    alignItems: "center",
+  },
+  image: {
+    width: 150,
+    height: 200,
+    resizeMode: "cover",
+    borderRadius: 10,
+  },
+  iconContainer: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    backgroundColor: "white",
+    borderRadius: 50,
+    padding: 5,
+  },
+  icon: {
+    width: 24,
+    height: 24,
   },
   title: {
     fontWeight: "500",
+    fontSize: 16,
+    marginBottom: 5,
   },
-  description: {},
+  description: {
+    fontSize: 14,
+    color: "#555",
+    marginBottom: 5,
+  },
   amount: {
+    fontSize: 16,
     color: "brown",
+    fontWeight: "bold",
   },
-  icons: {
-    position: "absolute",
-    bottom: 5,
-    right: 10,
-    marginLeft: 0,
-  },
-  price: {},
-  icon: {},
 });
 
 export default Home;

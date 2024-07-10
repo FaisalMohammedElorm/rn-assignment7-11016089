@@ -7,95 +7,42 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import Home from "../Home";
+import Home from "..//Home";
 import { CartContext } from "../CartContext";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const { addToCart, getTotalItems } = useContext(CartContext);
   const totalItems = getTotalItems();
+  const [clothesData, setClothesData] = useState([]);
 
-  const clothesData = [
-    {
-      id: 1,
-      image: require("../assets/dress1.png"),
-      title: "Office Wear",
-      description: "reversible angora cardigan",
-      price: "$120",
-      icon: require("../assets/add_circle.png"),
-      removeIcon: require("../assets/remove.png"),
-    },
-    {
-      id: 2,
-      image: require("../assets/dress2.png"),
-      title: "Black",
-      description: "reversible angora cardigan",
-      price: "$120",
-      icon: require("../assets/add_circle.png"),
-      removeIcon: require("../assets/remove.png"),
-    },
-    {
-      id: 3,
-      image: require("../assets/dress3.png"),
-      title: "Church Wear",
-      description: "reversible angora cardigan",
-      price: "$120",
-      icon: require("../assets/add_circle.png"),
-      removeIcon: require("../assets/remove.png"),
-    },
-    {
-      id: 4,
-      image: require("../assets/dress4.png"),
-      title: " Lamerei",
-      description: "reversible angora cardigan",
-      price: "$120",
-      icon: require("../assets/add_circle.png"),
-      removeIcon: require("../assets/remove.png"),
-    },
-    {
-      id: 5,
-      image: require("../assets/dress5.png"),
-      title: " 21WN",
-      description: "reversible angora cardigan",
-      price: "$120",
-      icon: require("../assets/add_circle.png"),
-      removeIcon: require("../assets/remove.png"),
-    },
-    {
-      id: 6,
-      image: require("../assets/dress6.png"),
-      title: " Lopo",
-      description: "reversible angora cardigan",
-      price: "$120",
-      icon: require("../assets/add_circle.png"),
-      removeIcon: require("../assets/remove.png"),
-    },
-    {
-      id: 7,
-      image: require("../assets/dress7.png"),
-      title: "21WN",
-      description: "reversible angora cardigan",
-      price: "$120",
-      icon: require("../assets/add_circle.png"),
-      removeIcon: require("../assets/remove.png"),
-    },
-    {
-      id: 8,
-      image: require("../assets/dress6.png"),
-      title: "lame",
-      description: "reversible angora cardigan",
-      price: "$120",
-      icon: require("../assets/add_circle.png"),
-      removeIcon: require("../assets/remove.png"),
-    },
-  ];
+  useEffect(() => {
+    // Fetch data from the API
+    fetch("https://dummyjson.com/products/category/womens-dresses")
+      .then((response) => response.json())
+      .then((data) => {
+        // Ensure data is properly structured
+        if (data && data.products) {
+          const transformedData = data.products.map((item) => ({
+            id: item.id,
+            image: item.thumbnail ? { uri: item.thumbnail } : null, // Ensure image.uri exists
+            title: item.title,
+            description: item.description,
+            price: `$${item.price}`,
+            icon: require("../assets/add_circle.png"),
+          }));
+          setClothesData(transformedData);
+        }
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   return (
-    <View style={{ backgroundColor: "white" }}> 
+    <View style={{ backgroundColor: "white" }}>
       <View
         style={{
           flexDirection: "row",
@@ -105,9 +52,8 @@ const HomeScreen = () => {
           marginTop: 40,
         }}
       >
-      {/** Top Container */}
         <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-          <Image source={require("../assets/Menu.png")}  />
+          <Image source={require("../assets/Menu.png")} style={{}} />
         </TouchableOpacity>
 
         <View>
@@ -137,7 +83,7 @@ const HomeScreen = () => {
           </View>
         </View>
       </View>
-            {/** Story Container */}
+
       <View style={styles.title}>
         <Text style={styles.topic}>OUR STORY</Text>
         <View style={styles.menu}>
@@ -149,7 +95,7 @@ const HomeScreen = () => {
           </View>
         </View>
       </View>
-            {/** FlatList Container */}
+
       <View style={{ paddingBottom: 400 }}>
         <FlatList
           data={clothesData}
@@ -202,7 +148,7 @@ const styles = StyleSheet.create({
   },
   topic: {
     fontSize: 24,
-    fontWeight: "600",
+    fontWeight: "400",
     marginLeft: 15,
     marginTop: 30,
     letterSpacing: 2,

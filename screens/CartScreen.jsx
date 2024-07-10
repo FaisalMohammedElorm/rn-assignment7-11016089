@@ -18,7 +18,7 @@ const CartScreen = () => {
   const { cart, removeFromCart, clearCart, getTotalItems } =
     useContext(CartContext);
   const navigation = useNavigation();
-
+    console.log(cart);
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
       <View style={styles.header}>

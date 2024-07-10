@@ -11,15 +11,20 @@ const CartsClothes = ({
 }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.image}>
-        <Image source={image} />
+      <View style={styles.imageContainer}>
+        {image && (
+          <Image
+            source={image.uri ? { uri: image.uri } : image}
+            style={styles.image}
+          />
+        )}
       </View>
-      <View style={styles.text}>
+      <View style={styles.textContainer}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.description}>{description}</Text>
         <Text style={styles.amount}>{price}</Text>
-        <TouchableOpacity onPress={onPressRemove} style={styles.icons}>
-          <Image source={icon} />
+        <TouchableOpacity onPress={onPressRemove} style={styles.removeButton}>
+          <Image source={icon} style={styles.iconImage} />
         </TouchableOpacity>
       </View>
     </View>
@@ -29,39 +34,52 @@ const CartsClothes = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    // marginBottom: 15,
-    marginLeft: 15,
-    justifyContent: "space-between",
+    padding: 15,
+    backgroundColor: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+    alignItems: "center",
+  },
+  imageContainer: {
+    flex: 1,
     alignItems: "center",
   },
   image: {
-    position: "relative",
-    marginBottom: 15,
-    marginTop: 30,
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+  },
+  textContainer: {
+    flex: 3,
+    paddingLeft: 15,
   },
   title: {
-    fontWeight: "400",
-    letterSpacing: 2,
-    fontSize: 20,
+    fontWeight: "600",
+    letterSpacing: 1,
+    fontSize: 18,
+    marginBottom: 5,
   },
   description: {
-    fontSize: 16,
-    marginTop: 10,
+    fontSize: 14,
+    color: "#555",
+    marginBottom: 10,
   },
   amount: {
+    fontSize: 16,
     color: "brown",
+    marginBottom: 10,
+  },
+  removeButton: {
     marginTop: 10,
+    padding: 5,
+    backgroundColor: "#f8d7da",
+    borderRadius: 5,
+    alignSelf: "flex-start",
   },
-  icons: {
-    marginTop: 40,
-    marginRight: 20,
-    alignItems: "flex-end",
+  iconImage: {
+    width: 24,
+    height: 24,
   },
-  text: {
-    marginRight: 30,
-    marginLeft: 10,
-  },
-  icon: {},
 });
 
 export default CartsClothes;
